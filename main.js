@@ -1,29 +1,37 @@
 const express = require('express')
+const blog=require('./routes/blog')
+const shop=require('./routes/shop')
 const app = express()
 const port = 3000
 
 app.use(express.static('public'))
 
+app.use('/blog',blog)
+app.use('/shop',shop)
+
+
 
 app.get('/', (req, res) => {
+    console.log("Hey it is get request")
   res.send('Hello World2!')
+}).post('/', (req, res) => {
+    console.log("Hey it is post request")
+  res.send('Hello post request!')
+}).put('/', (req, res) => {
+    console.log("Hey it is put request")
+  res.send('Hello put request!')
+})
+app.get("/index", (req, res) => {
+    console.log("Hey its index")
+    res.sendFile('templates/index.html',{root:__dirname})
+    // res.sendFile(path.join(__dirname, 'templates', 'index.html'));
+})
+app.get("/api", (req, res) => {
+    res.json({a:1,b:2,c:3,name:["raja",'lali']})
+    // res.sendFile(path.join(__dirname, 'templates', 'index.html'));
 })
 
-app.get('/about', (req, res) => {
-  res.send('About Us')
-})
 
-app.get('/contact', (req, res) => {
-  res.send('contact Us')
-})
-app.get('/blog/:slug', (req, res) => {
-
-    // http://127.0.0.1:3000/blog/intro-to-js/?mode=dark&region=in for this url
-    console.log(req.params) //this will show  { slug: 'intro-to-js' }
-    console.log(req.query) // this will show  { mode: 'dark', region: 'in' }
-  res.send(`Hello from blog to ${req.params.slug}`)
-})
-// app.get('/blog/intro-to-js', (req, res) => {
 //     //logic to fetch intro to js from the db
 //   res.send('Hello Javascript')
 // })
